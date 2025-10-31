@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Patient Dashboard — Medisync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .sidebar {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #0d6efd 0%, #0a58ca 100%);
+    }
+    .sidebar .nav-link {
+      color: rgba(255,255,255,0.8);
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 5px;
+      transition: all 0.3s;
+    }
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+    .stat-card {
+      border-left: 4px solid #0d6efd;
+      transition: transform 0.3s;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+    .appointment-card {
+      border-left: 4px solid #198754;
+    }
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 col-lg-2 px-0 sidebar text-white">
+        <div class="p-4">
+          <div class="d-flex align-items-center mb-4">
+            <img src="assets/img/logo.jpg" alt="Medisync" class="rounded" width="40" height="40">
+            <h5 class="ms-2 mb-0">Medisync</h5>
+          </div>
+          
+          <div class="text-center mb-4">
+            <div class="profile-avatar rounded-circle mx-auto d-flex align-items-center justify-content-center text-white">
+              <i class="fa fa-user fa-2x"></i>
+            </div>
+            <h6 class="mt-3 mb-0">John Doe</h6>
+            <small class="opacity-75">Patient ID: P-12345</small>
+          </div>
+
+          <nav class="nav flex-column">
+            <a class="nav-link active" href="#dashboard"><i class="fa fa-home me-2"></i> Dashboard</a>
+            <a class="nav-link" href="#appointments"><i class="fa fa-calendar me-2"></i> Appointments</a>
+            <a class="nav-link" href="#records"><i class="fa fa-file-medical me-2"></i> Medical Records</a>
+            <a class="nav-link" href="#prescriptions"><i class="fa fa-prescription me-2"></i> Prescriptions</a>
+            <a class="nav-link" href="#lab-results"><i class="fa fa-flask me-2"></i> Lab Results</a>
+            <a class="nav-link" href="#billing"><i class="fa fa-credit-card me-2"></i> Billing</a>
+            <a class="nav-link" href="#messages"><i class="fa fa-envelope me-2"></i> Messages</a>
+            <a class="nav-link" href="#profile"><i class="fa fa-user-cog me-2"></i> Profile Settings</a>
+          </nav>
+
+          <hr class="bg-white opacity-25 my-4">
+          
+          <a class="nav-link text-white" href="index.html"><i class="fa fa-sign-out-alt me-2"></i> Logout</a>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col-md-9 col-lg-10 px-4 py-4">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h2>Welcome back, John! 👋</h2>
+            <p class="text-muted mb-0">Here's what's happening with your health today</p>
+          </div>
+          <div>
+            <button class="btn btn-outline-primary me-2"><i class="fa fa-bell"></i></button>
+            <a href="book.html" class="btn btn-primary"><i class="fa fa-plus me-2"></i> Book Appointment</a>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="text-muted mb-1 small">Upcoming</p>
+                    <h3 class="mb-0">3</h3>
+                    <small class="text-muted">Appointments</small>
+                  </div>
+                  <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                    <i class="fa fa-calendar-check fa-2x text-primary"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="text-muted mb-1 small">Active</p>
+                    <h3 class="mb-0">5</h3>
+                    <small class="text-muted">Prescriptions</small>
+                  </div>
+                  <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                    <i class="fa fa-pills fa-2x text-success"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="text-muted mb-1 small">Pending</p>
+                    <h3 class="mb-0">2</h3>
+                    <small class="text-muted">Lab Results</small>
+                  </div>
+                  <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+                    <i class="fa fa-flask fa-2x text-warning"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card stat-card border-0 shadow-sm h-100">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p class="text-muted mb-1 small">Unread</p>
+                    <h3 class="mb-0">4</h3>
+                    <small class="text-muted">Messages</small>
+                  </div>
+                  <div class="bg-info bg-opacity-10 rounded-circle p-3">
+                    <i class="fa fa-envelope fa-2x text-info"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Appointments -->
+        <div class="row g-4 mb-4">
+          <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fa fa-calendar-alt text-primary me-2"></i> Upcoming Appointments</h5>
+                <a href="#appointments" class="btn btn-sm btn-outline-primary">View All</a>
+              </div>
+              <div class="card-body">
+                <!-- Appointment 1 -->
+                <div class="appointment-card card border-0 bg-light mb-3">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-md-2 text-center">
+                        <div class="bg-primary text-white rounded p-2">
+                          <div class="h4 mb-0">15</div>
+                          <small>Oct</small>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <h6 class="mb-1">Dr. Sarah Johnson</h6>
+                        <p class="text-muted small mb-1"><i class="fa fa-stethoscope me-1"></i> Cardiology Checkup</p>
+                        <p class="text-muted small mb-0"><i class="fa fa-clock me-1"></i> 10:00 AM - 11:00 AM</p>
+                      </div>
+                      <div class="col-md-4 text-end">
+                        <span class="badge bg-success mb-2">Confirmed</span>
+                        <div>
+                          <button class="btn btn-sm btn-outline-primary me-1"><i class="fa fa-video"></i> Join</button>
+                          <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Appointment 2 -->
+                <div class="appointment-card card border-0 bg-light mb-3">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-md-2 text-center">
+                        <div class="bg-primary text-white rounded p-2">
+                          <div class="h4 mb-0">18</div>
+                          <small>Oct</small>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <h6 class="mb-1">Dr. Michael Chen</h6>
+                        <p class="text-muted small mb-1"><i class="fa fa-user-md me-1"></i> General Consultation</p>
+                        <p class="text-muted small mb-0"><i class="fa fa-clock me-1"></i> 2:00 PM - 3:00 PM</p>
+                      </div>
+                      <div class="col-md-4 text-end">
+                        <span class="badge bg-warning text-dark mb-2">Pending</span>
+                        <div>
+                          <button class="btn btn-sm btn-outline-primary me-1"><i class="fa fa-check"></i> Confirm</button>
+                          <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Appointment 3 -->
+                <div class="appointment-card card border-0 bg-light">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-md-2 text-center">
+                        <div class="bg-primary text-white rounded p-2">
+                          <div class="h4 mb-0">22</div>
+                          <small>Oct</small>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <h6 class="mb-1">Dr. Emily Rodriguez</h6>
+                        <p class="text-muted small mb-1"><i class="fa fa-spa me-1"></i> Dermatology Follow-up</p>
+                        <p class="text-muted small mb-0"><i class="fa fa-clock me-1"></i> 11:00 AM - 12:00 PM</p>
+                      </div>
+                      <div class="col-md-4 text-end">
+                        <span class="badge bg-success mb-2">Confirmed</span>
+                        <div>
+                          <button class="btn btn-sm btn-outline-primary me-1"><i class="fa fa-map-marker-alt"></i> Directions</button>
+                          <button class="btn btn-sm btn-outline-secondary"><i class="fa fa-edit"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions & Health Summary -->
+          <div class="col-lg-4">
+            <!-- Quick Actions -->
+            <div class="card border-0 shadow-sm mb-4">
+              <div class="card-header bg-white border-0">
+                <h6 class="mb-0"><i class="fa fa-bolt text-warning me-2"></i> Quick Actions</h6>
+              </div>
+              <div class="card-body">
+                <div class="d-grid gap-2">
+                  <a href="book.html" class="btn btn-outline-primary btn-sm text-start">
+                    <i class="fa fa-calendar-plus me-2"></i> Book New Appointment
+                  </a>
+                  <button class="btn btn-outline-success btn-sm text-start">
+                    <i class="fa fa-prescription me-2"></i> Request Prescription Refill
+                  </button>
+                  <button class="btn btn-outline-info btn-sm text-start">
+                    <i class="fa fa-upload me-2"></i> Upload Medical Document
+                  </button>
+                  <button class="btn btn-outline-warning btn-sm text-start">
+                    <i class="fa fa-comment-medical me-2"></i> Ask a Question
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Health Summary -->
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white border-0">
+                <h6 class="mb-0"><i class="fa fa-heartbeat text-danger me-2"></i> Health Summary</h6>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <small class="text-muted">Blood Pressure</small>
+                    <small class="fw-semibold">120/80 mmHg</small>
+                  </div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-success" style="width: 75%"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <small class="text-muted">Heart Rate</small>
+                    <small class="fw-semibold">72 bpm</small>
+                  </div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-info" style="width: 60%"></div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between mb-1">
+                    <small class="text-muted">Blood Sugar</small>
+                    <small class="fw-semibold">95 mg/dL</small>
+                  </div>
+                  <div class="progress" style="height: 6px;">
+                    <div class="progress-bar bg-warning" style="width: 50%"></div>
+                  </div>
+                </div>
+                <div class="text-center mt-3">
+                  <small class="text-muted">Last updated: Oct 10, 2025</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity & Messages -->
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white border-0">
+                <h6 class="mb-0"><i class="fa fa-history text-primary me-2"></i> Recent Activity</h6>
+              </div>
+              <div class="card-body">
+                <div class="d-flex mb-3">
+                  <div class="bg-primary bg-opacity-10 rounded-circle p-2 me-3" style="width: 40px; height: 40px;">
+                    <i class="fa fa-file-medical text-primary"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <p class="mb-1 small"><strong>Lab Results Available</strong></p>
+                    <p class="text-muted small mb-0">Blood test results from Oct 8 are now available</p>
+                    <small class="text-muted">2 hours ago</small>
+                  </div>
+                </div>
+                <div class="d-flex mb-3">
+                  <div class="bg-success bg-opacity-10 rounded-circle p-2 me-3" style="width: 40px; height: 40px;">
+                    <i class="fa fa-check text-success"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <p class="mb-1 small"><strong>Appointment Confirmed</strong></p>
+                    <p class="text-muted small mb-0">Your appointment with Dr. Sarah Johnson is confirmed</p>
+                    <small class="text-muted">1 day ago</small>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="bg-info bg-opacity-10 rounded-circle p-2 me-3" style="width: 40px; height: 40px;">
+                    <i class="fa fa-prescription text-info"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <p class="mb-1 small"><strong>Prescription Renewed</strong></p>
+                    <p class="text-muted small mb-0">Your prescription for Lisinopril has been renewed</p>
+                    <small class="text-muted">3 days ago</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0"><i class="fa fa-envelope text-primary me-2"></i> Recent Messages</h6>
+                <span class="badge bg-danger">4 New</span>
+              </div>
+              <div class="card-body">
+                <div class="d-flex mb-3 pb-3 border-bottom">
+                  <img src="https://randomuser.me/api/portraits/women/65.jpg" class="rounded-circle me-3" width="40" height="40" alt="Doctor">
+                  <div class="flex-grow-1">
+                    <p class="mb-1 small"><strong>Dr. Sarah Johnson</strong></p>
+                    <p class="text-muted small mb-0">Your test results look good. Let's discuss in our next appointment.</p>
+                    <small class="text-muted">1 hour ago</small>
+                  </div>
+                </div>
+                <div class="d-flex mb-3 pb-3 border-bottom">
+                  <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-3" width="40" height="40" alt="Doctor">
+                  <div class="flex-grow-1">
+                    <p class="mb-1 small"><strong>Dr. Michael Chen</strong></p>
+                    <p class="text-muted small mb-0">Please remember to take your medication as prescribed.</p>
+                    <small class="text-muted">2 days ago</small>
+                  </div>
+                </div>
+                <div class="d-flex">
+                  <div class="bg-secondary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                    <i class="fa fa-hospital text-secondary"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <p class="mb-1 small"><strong>Medisync Support</strong></p>
+                    <p class="text-muted small mb-0">Your insurance claim has been processed successfully.</p>
+                    <small class="text-muted">3 days ago</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

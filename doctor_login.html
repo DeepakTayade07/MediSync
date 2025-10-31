@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Doctor Login — Medisync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="topbar bg-danger text-white py-2 small">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div><i class="fa fa-phone me-2"></i>Emergency Hotline: 911 | 24/7 Medical Support: (555) 123-4567</div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="assets/img/logo.jpg" alt="Medisync logo" class="logo-img">
+        <div><div class="brand-title">Medisync</div><div class="brand-sub small">Your Health in Sync</div></div>
+      </a>
+      <div class="ms-auto">
+        <a class="btn btn-outline-primary btn-sm" href="patient_login.html">Patient Login</a>
+        <a class="btn btn-primary btn-sm text-white ms-2" href="doctor_login.html">Doctor Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="card p-4 shadow-sm">
+          <div class="text-center mb-3">
+            <div class="login-avatar doctor"><i class="fa fa-user-md"></i></div>
+            <h4>Doctor Portal Login</h4>
+            <p class="text-muted">Access patient records, schedules, and medical tools</p>
+          </div>
+
+          <div id="alertContainer"></div>
+
+          <form id="doctorLoginForm">
+            <div class="mb-3">
+              <label class="form-label">Doctor ID / Email</label>
+              <input type="text" class="form-control" id="doctorEmail" placeholder="D-12345 or email@example.com" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" class="form-control" id="doctorPassword" placeholder="Enter your password" required>
+            </div>
+
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="rememberDoctor">
+              <label class="form-check-label small" for="rememberDoctor">
+                Remember me
+              </label>
+            </div>
+
+            <div class="d-grid">
+              <button class="btn btn-primary btn-lg" type="submit" id="loginBtn">
+                <i class="fa fa-lock me-2"></i> Login to Portal
+              </button>
+            </div>
+
+            <p class="text-center mt-3 small"><a href="#">Forgot Password?</a></p>
+            <div class="text-center mt-2">
+              <a class="btn btn-outline-primary" href="contact.html">Technical Support</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-light py-4">
+    <div class="container text-center small text-muted">© 2025 Medisync</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script>
+    // Check if API is loaded
+    console.log('Doctor Login Page Loaded');
+    console.log('API Module:', typeof loginDoctor !== 'undefined' ? 'Loaded ✅' : 'NOT Loaded ❌');
+    
+    if (typeof loginDoctor === 'undefined') {
+      alert('Error: API module not loaded. Please make sure api.js is accessible.');
+    }
+    
+    document.getElementById('doctorLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      console.log('Login form submitted');
+      
+      const email = document.getElementById('doctorEmail').value;
+      const password = document.getElementById('doctorPassword').value;
+      const loginBtn = document.getElementById('loginBtn');
+      const originalText = loginBtn.innerHTML;
+      
+      // Show loading state
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i> Logging in...';
+      
+      try {
+        console.log('Calling loginDoctor API...');
+        console.log('Email:', email);
+        const result = await loginDoctor(email, password);
+        console.log('Login result:', result);
+        
+        if (result.success) {
+          // Save token and user data
+          localStorage.setItem('token', result.token);
+          localStorage.setItem('user', JSON.stringify(result.data));
+          localStorage.setItem('userType', 'doctor');
+          
+          // Show success message
+          showAlert('success', 'Login successful! Redirecting...');
+          
+          // Redirect to dashboard
+          setTimeout(() => {
+            window.location.href = 'doctor_dashboard_new.html';
+          }, 1000);
+        } else {
+          showAlert('danger', result.message || 'Login failed. Please try again.');
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = originalText;
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        showAlert('danger', 'Connection error. Please make sure the backend server is running.');
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = originalText;
+      }
+    });
+    
+    function showAlert(type, message) {
+      const alertContainer = document.getElementById('alertContainer');
+      alertContainer.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

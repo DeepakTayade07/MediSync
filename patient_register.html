@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Patient Registration — Medisync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="topbar bg-danger text-white py-2 small">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div><i class="fa fa-phone me-2"></i>Emergency Hotline: 911 | 24/7 Medical Support: (555) 123-4567</div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="assets/img/logo.jpg" alt="Medisync logo" class="logo-img">
+        <div><div class="brand-title">Medisync</div><div class="brand-sub small">Your Health in Sync</div></div>
+      </a>
+      <div class="ms-auto">
+        <a class="btn btn-outline-primary btn-sm" href="patient_login.html">Already have an account? Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-sm p-4">
+          <div class="text-center mb-4">
+            <div class="login-avatar"><i class="fa fa-user-plus"></i></div>
+            <h4>New Patient Registration</h4>
+            <p class="text-muted">Create your account to access our healthcare services</p>
+          </div>
+
+          <div id="alertContainer"></div>
+
+          <form id="registrationForm">
+            <!-- Personal Information -->
+            <h6 class="text-primary mb-3"><i class="fa fa-user me-2"></i>Personal Information</h6>
+            
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-control" id="name" placeholder="John Doe" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email Address *</label>
+                <input type="email" class="form-control" id="email" placeholder="john@example.com" required>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Phone Number *</label>
+                <input type="tel" class="form-control" id="phone" placeholder="1234567890" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Date of Birth *</label>
+                <input type="date" class="form-control" id="dateOfBirth" required>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Gender *</label>
+                <select class="form-select" id="gender" required>
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Blood Group</label>
+                <select class="form-select" id="bloodGroup">
+                  <option value="">Select Blood Group</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Address</label>
+              <textarea class="form-control" id="address" rows="2" placeholder="Street, City, State, ZIP"></textarea>
+            </div>
+
+            <!-- Security -->
+            <h6 class="text-primary mb-3 mt-4"><i class="fa fa-lock me-2"></i>Security</h6>
+            
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Password *</label>
+                <input type="password" class="form-control" id="password" placeholder="Minimum 6 characters" required minlength="6">
+                <small class="text-muted">At least 6 characters</small>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Confirm Password *</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Re-enter password" required>
+              </div>
+            </div>
+
+            <!-- Emergency Contact -->
+            <h6 class="text-primary mb-3 mt-4"><i class="fa fa-phone-square me-2"></i>Emergency Contact (Optional)</h6>
+            
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label class="form-label">Contact Name</label>
+                <input type="text" class="form-control" id="emergencyName" placeholder="Jane Doe">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Relationship</label>
+                <input type="text" class="form-control" id="emergencyRelationship" placeholder="Spouse, Parent, etc.">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="emergencyPhone" placeholder="0987654321">
+              </div>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="terms" required>
+              <label class="form-check-label small" for="terms">
+                I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a> *
+              </label>
+            </div>
+
+            <div class="d-grid">
+              <button class="btn btn-primary btn-lg" type="submit" id="registerBtn">
+                <i class="fa fa-user-plus me-2"></i> Create Account
+              </button>
+            </div>
+
+            <p class="text-center mt-3 small">
+              Already have an account? <a href="patient_login.html">Login here</a>
+            </p>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-light py-4">
+    <div class="container text-center small text-muted">© 2025 Medisync</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script>
+    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      // Validate passwords match
+      if (password !== confirmPassword) {
+        showAlert('danger', 'Passwords do not match!');
+        return;
+      }
+      
+      // Validate terms
+      if (!document.getElementById('terms').checked) {
+        showAlert('danger', 'Please agree to the Terms & Conditions');
+        return;
+      }
+      
+      const registerBtn = document.getElementById('registerBtn');
+      const originalText = registerBtn.innerHTML;
+      
+      // Show loading state
+      registerBtn.disabled = true;
+      registerBtn.innerHTML = '<i class="fa fa-spinner fa-spin me-2"></i> Creating Account...';
+      
+      // Prepare registration data
+      const userData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: password,
+        phone: document.getElementById('phone').value,
+        dateOfBirth: document.getElementById('dateOfBirth').value,
+        gender: document.getElementById('gender').value,
+        bloodGroup: document.getElementById('bloodGroup').value || undefined,
+        address: document.getElementById('address').value || undefined
+      };
+      
+      // Add emergency contact if provided
+      const emergencyName = document.getElementById('emergencyName').value;
+      if (emergencyName) {
+        userData.emergencyContact = {
+          name: emergencyName,
+          relationship: document.getElementById('emergencyRelationship').value,
+          phone: document.getElementById('emergencyPhone').value
+        };
+      }
+      
+      try {
+        const result = await registerPatient(userData);
+        
+        if (result.success) {
+          // Save token and user data
+          localStorage.setItem('token', result.token);
+          localStorage.setItem('user', JSON.stringify(result.data));
+          
+          // Show success message
+          showAlert('success', 'Registration successful! Redirecting to dashboard...');
+          
+          // Redirect to dashboard
+          setTimeout(() => {
+            window.location.href = 'patient_dashboard_new.html';
+          }, 2000);
+        } else {
+          showAlert('danger', result.message || 'Registration failed. Please try again.');
+          registerBtn.disabled = false;
+          registerBtn.innerHTML = originalText;
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        showAlert('danger', 'Connection error. Please make sure the backend server is running.');
+        registerBtn.disabled = false;
+        registerBtn.innerHTML = originalText;
+      }
+    });
+    
+    function showAlert(type, message) {
+      const alertContainer = document.getElementById('alertContainer');
+      alertContainer.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      `;
+      
+      // Scroll to alert
+      alertContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>

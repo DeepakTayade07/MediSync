@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Doctors — Medisync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="topbar bg-danger text-white py-2 small">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div><i class="fa fa-phone me-2"></i>Emergency Hotline: 911 | 24/7 Medical Support: (555) 123-4567</div>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <img src="assets/img/logo.jpg" alt="Medisync logo" class="logo-img">
+        <div>
+          <div class="brand-title">Medisync</div>
+          <div class="brand-sub small">Your Health in Sync</div>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="mainNav" class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link active" href="doctors.html">Doctors</a></li>
+          <li class="nav-item"><a class="nav-link" href="faqs.html">FAQs</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item ms-3"><a class="btn btn-outline-primary btn-sm" href="patient_login.html"><i class="fa fa-user"></i> Patient Login</a></li>
+          <li class="nav-item ms-2"><a class="btn btn-primary btn-sm text-white" href="doctor_login.html"><i class="fa fa-user-md"></i> Doctor Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-primary text-white py-5">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3">Our Medical Experts</h1>
+      <p class="lead">Meet our team of experienced, board-certified physicians</p>
+    </div>
+  </section>
+
+  <!-- Filter Section -->
+  <section class="bg-light py-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-3">
+          <select class="form-select" id="specialtyFilter">
+            <option value="">All Specialties</option>
+            <option>Cardiology</option>
+            <option>Dermatology</option>
+            <option>General Medicine</option>
+            <option>Gynecology</option>
+            <option>Orthopedics</option>
+            <option>Pediatrics</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" id="languageFilter">
+            <option value="">All Languages</option>
+            <option>English</option>
+            <option>Hindi</option>
+            <option>Spanish</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <input type="text" class="form-control" id="searchInput" placeholder="Search by name...">
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" onclick="filterDoctors()"><i class="fa fa-search me-1"></i> Search</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Loading Spinner -->
+  <div id="loadingSpinner" class="text-center my-5" style="display: none;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading doctors...</p>
+  </div>
+
+  <!-- Doctors Grid -->
+  <section class="container my-5">
+    <div class="row g-4" id="doctorsGrid">
+      <!-- Doctors will be loaded dynamically from backend -->
+    </div>
+  </section>
+
+  <!-- Why Choose Our Doctors -->
+  <section class="bg-light py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2>Why Choose Our Doctors?</h2>
+        <p class="text-muted">Excellence in medical care with a patient-first approach</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-3">
+          <div class="text-center">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+              <i class="fa fa-certificate fa-2x text-primary"></i>
+            </div>
+            <h5>Board Certified</h5>
+            <p class="small text-muted">All doctors are board-certified in their specialties</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="text-center">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+              <i class="fa fa-graduation-cap fa-2x text-primary"></i>
+            </div>
+            <h5>Highly Qualified</h5>
+            <p class="small text-muted">Trained at top medical institutions worldwide</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="text-center">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+              <i class="fa fa-user-friends fa-2x text-primary"></i>
+            </div>
+            <h5>Patient-Centered</h5>
+            <p class="small text-muted">Compassionate care focused on your needs</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="text-center">
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+              <i class="fa fa-clock fa-2x text-primary"></i>
+            </div>
+            <h5>Available 24/7</h5>
+            <p class="small text-muted">Round-the-clock medical support when you need it</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-light pt-5 pb-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h6>Medisync</h6>
+          <p class="text-muted small">Your Health in Sync — integrated health data and services.</p>
+        </div>
+        <div class="col-md-4">
+          <h6>Quick Links</h6>
+          <ul class="list-unstyled small">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="book.html">Book Appointment</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6>Contact</h6>
+          <p class="small text-muted">support@medisync.com | (555) 123-4567</p>
+        </div>
+      </div>
+      <div class="text-center small text-muted mt-4">© 2025 Medisync. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script>
+    let allDoctors = [];
+
+    // Load doctors when page loads
+    document.addEventListener('DOMContentLoaded', loadDoctors);
+
+    async function loadDoctors() {
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      const doctorsGrid = document.getElementById('doctorsGrid');
+      
+      try {
+        loadingSpinner.style.display = 'block';
+        doctorsGrid.innerHTML = '';
+        
+        const result = await getAllDoctors();
+        
+        if (result.success && result.data.length > 0) {
+          allDoctors = result.data;
+          displayDoctors(allDoctors);
+        } else {
+          doctorsGrid.innerHTML = `
+            <div class="col-12 text-center py-5">
+              <i class="fa fa-user-md fa-3x text-muted mb-3"></i>
+              <h4>No Doctors Found</h4>
+              <p class="text-muted">Please check back later or contact support.</p>
+            </div>
+          `;
+        }
+      } catch (error) {
+        console.error('Error loading doctors:', error);
+        doctorsGrid.innerHTML = `
+          <div class="col-12 text-center py-5">
+            <i class="fa fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+            <h4>Connection Error</h4>
+            <p class="text-muted">Unable to load doctors. Please make sure the backend server is running.</p>
+            <button class="btn btn-primary mt-3" onclick="loadDoctors()">
+              <i class="fa fa-refresh me-2"></i>Try Again
+            </button>
+          </div>
+        `;
+      } finally {
+        loadingSpinner.style.display = 'none';
+      }
+    }
+
+    function displayDoctors(doctors) {
+      const doctorsGrid = document.getElementById('doctorsGrid');
+      
+      if (doctors.length === 0) {
+        doctorsGrid.innerHTML = `
+          <div class="col-12 text-center py-5">
+            <i class="fa fa-search fa-3x text-muted mb-3"></i>
+            <h4>No Doctors Match Your Search</h4>
+            <p class="text-muted">Try adjusting your filters.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      doctorsGrid.innerHTML = doctors.map(doctor => createDoctorCard(doctor)).join('');
+    }
+
+    function createDoctorCard(doctor) {
+      const imageUrl = doctor.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(doctor.name)}&size=200&background=random`;
+      const rating = doctor.rating || 4.5;
+      const reviewCount = doctor.reviewCount || 0;
+      const experience = doctor.experience || 'N/A';
+      const languages = doctor.languages?.join(', ') || 'English';
+      
+      return `
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="${imageUrl}" class="img-fluid h-100 object-fit-cover" alt="${doctor.name}">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">Dr. ${doctor.name}</h5>
+                  <p class="text-primary mb-2">
+                    <i class="fa fa-stethoscope me-1"></i> ${doctor.specialization}
+                  </p>
+                  <div class="mb-2">
+                    ${generateStars(rating)}
+                    <span class="small text-muted ms-1">(${reviewCount} reviews)</span>
+                  </div>
+                  <p class="small text-muted mb-2"><strong>Experience:</strong> ${experience}</p>
+                  <p class="small text-muted mb-2"><strong>Education:</strong> ${doctor.education || 'MBBS, MD'}</p>
+                  <p class="small text-muted mb-2"><strong>Languages:</strong> ${languages}</p>
+                  <p class="small text-muted mb-2"><strong>Consultation Fee:</strong> ₹${doctor.consultationFee || 500}</p>
+                  ${doctor.bio ? `<p class="small mb-3">${doctor.bio.substring(0, 100)}...</p>` : ''}
+                  <div class="d-flex gap-2">
+                    <a href="book.html" class="btn btn-primary btn-sm">
+                      <i class="fa fa-calendar me-1"></i> Book Appointment
+                    </a>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="viewDoctorProfile('${doctor._id}')">
+                      <i class="fa fa-info-circle me-1"></i> View Profile
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function generateStars(rating) {
+      const fullStars = Math.floor(rating);
+      const hasHalfStar = rating % 1 >= 0.5;
+      let stars = '';
+      
+      for (let i = 0; i < fullStars; i++) {
+        stars += '<i class="fa fa-star text-warning"></i>';
+      }
+      if (hasHalfStar) {
+        stars += '<i class="fa fa-star-half-alt text-warning"></i>';
+      }
+      const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+      for (let i = 0; i < emptyStars; i++) {
+        stars += '<i class="fa fa-star text-muted"></i>';
+      }
+      
+      return stars;
+    }
+
+    function filterDoctors() {
+      const specialty = document.getElementById('specialtyFilter').value.toLowerCase();
+      const language = document.getElementById('languageFilter').value.toLowerCase();
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      
+      const filtered = allDoctors.filter(doctor => {
+        const matchesSpecialty = !specialty || doctor.specialization.toLowerCase().includes(specialty);
+        const matchesLanguage = !language || (doctor.languages && doctor.languages.some(lang => lang.toLowerCase().includes(language)));
+        const matchesSearch = !searchTerm || doctor.name.toLowerCase().includes(searchTerm);
+        
+        return matchesSpecialty && matchesLanguage && matchesSearch;
+      });
+      
+      displayDoctors(filtered);
+    }
+
+    function viewDoctorProfile(doctorId) {
+      // Store doctor ID and redirect to profile page
+      localStorage.setItem('selectedDoctorId', doctorId);
+      alert('Doctor profile feature coming soon!');
+    }
+
+    // Add event listeners for filters
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('specialtyFilter').addEventListener('change', filterDoctors);
+      document.getElementById('languageFilter').addEventListener('change', filterDoctors);
+      document.getElementById('searchInput').addEventListener('input', filterDoctors);
+    });
+  </script>
+</body>
+</html>

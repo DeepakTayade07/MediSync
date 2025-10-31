@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Patient Dashboard — Medisync</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .sidebar {
+      min-height: 100vh;
+      background: linear-gradient(180deg, #0d6efd 0%, #0a58ca 100%);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      z-index: 1000;
+    }
+    .sidebar .nav-link {
+      color: rgba(255,255,255,0.8);
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 5px;
+      transition: all 0.3s;
+    }
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+    }
+    .stat-card {
+      border-left: 4px solid #0d6efd;
+      transition: transform 0.3s;
+    }
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: white;
+      font-size: 32px;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .appointment-card {
+      border-left: 4px solid #198754;
+    }
+    .badge-status {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <!-- Sidebar -->
+  <div class="sidebar text-white p-4">
+    <div class="text-center mb-4">
+      <h4 class="mb-0">Medisync</h4>
+      <small>Patient Portal</small>
+    </div>
+
+    <div class="text-center mb-4">
+      <div class="profile-avatar mx-auto mb-2">
+        <i class="fa fa-user"></i>
+      </div>
+      <h6 class="mb-0" id="sidebarPatientName">Loading...</h6>
+      <small id="sidebarPatientEmail">Loading...</small>
+    </div>
+
+    <nav class="nav flex-column">
+      <a class="nav-link active" href="#" onclick="showTab('dashboard')">
+        <i class="fa fa-home me-2"></i> Dashboard
+      </a>
+      <a class="nav-link" href="#" onclick="showTab('appointments')">
+        <i class="fa fa-calendar me-2"></i> My Appointments
+      </a>
+      <a class="nav-link" href="#" onclick="showTab('book')">
+        <i class="fa fa-plus-circle me-2"></i> Book Appointment
+      </a>
+      <a class="nav-link" href="#" onclick="showTab('profile')">
+        <i class="fa fa-user me-2"></i> My Profile
+      </a>
+      <a class="nav-link" href="#" onclick="showTab('medical-records')">
+        <i class="fa fa-file-medical me-2"></i> Medical Records
+      </a>
+      <a class="nav-link" href="#" onclick="showTab('prescriptions')">
+        <i class="fa fa-prescription me-2"></i> Prescriptions
+      </a>
+      <a class="nav-link" href="#" onclick="logout()">
+        <i class="fa fa-sign-out-alt me-2"></i> Logout
+      </a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h3>Welcome back, <span id="patientName">Patient</span>!</h3>
+        <p class="text-muted mb-0">Here's your health overview</p>
+      </div>
+      <div>
+        <button class="btn btn-primary" onclick="showTab('book')">
+          <i class="fa fa-plus me-2"></i> Book Appointment
+        </button>
+      </div>
+    </div>
+
+    <!-- Dashboard Tab -->
+    <div id="dashboard-tab" class="tab-content active">
+      <!-- Stats Cards -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="card stat-card shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted mb-1">Total Appointments</h6>
+                  <h3 class="mb-0" id="totalAppointments">0</h3>
+                </div>
+                <div class="text-primary">
+                  <i class="fa fa-calendar fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card stat-card shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted mb-1">Upcoming</h6>
+                  <h3 class="mb-0" id="upcomingAppointments">0</h3>
+                </div>
+                <div class="text-success">
+                  <i class="fa fa-clock fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card stat-card shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted mb-1">Completed</h6>
+                  <h3 class="mb-0" id="completedAppointments">0</h3>
+                </div>
+                <div class="text-info">
+                  <i class="fa fa-check-circle fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card stat-card shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted mb-1">Prescriptions</h6>
+                  <h3 class="mb-0">0</h3>
+                </div>
+                <div class="text-warning">
+                  <i class="fa fa-prescription fa-2x"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Appointments -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white">
+          <h5 class="mb-0"><i class="fa fa-calendar-alt me-2"></i>Upcoming Appointments</h5>
+        </div>
+        <div class="card-body">
+          <div id="upcomingAppointmentsList">
+            <div class="text-center py-4">
+              <i class="fa fa-spinner fa-spin fa-2x text-muted"></i>
+              <p class="text-muted mt-2">Loading appointments...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0"><i class="fa fa-bolt me-2"></i>Quick Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <button class="btn btn-outline-primary w-100 mb-2" onclick="showTab('book')">
+                <i class="fa fa-plus-circle d-block mb-2 fa-2x"></i>
+                Book Appointment
+              </button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-outline-success w-100 mb-2" onclick="showTab('medical-records')">
+                <i class="fa fa-file-medical d-block mb-2 fa-2x"></i>
+                View Records
+              </button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-outline-info w-100 mb-2" onclick="showTab('prescriptions')">
+                <i class="fa fa-prescription d-block mb-2 fa-2x"></i>
+                Prescriptions
+              </button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-outline-warning w-100 mb-2" onclick="showTab('profile')">
+                <i class="fa fa-user-edit d-block mb-2 fa-2x"></i>
+                Update Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Appointments Tab -->
+    <div id="appointments-tab" class="tab-content">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0"><i class="fa fa-calendar me-2"></i>All My Appointments</h5>
+        </div>
+        <div class="card-body">
+          <div id="allAppointmentsList">
+            <div class="text-center py-4">
+              <i class="fa fa-spinner fa-spin fa-2x text-muted"></i>
+              <p class="text-muted mt-2">Loading appointments...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Book Appointment Tab -->
+    <div id="book-tab" class="tab-content">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0"><i class="fa fa-plus-circle me-2"></i>Book New Appointment</h5>
+        </div>
+        <div class="card-body">
+          <iframe src="book.html" style="width:100%; height:800px; border:none;"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Tab -->
+    <div id="profile-tab" class="tab-content">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <div class="card-body text-center">
+              <div class="profile-avatar mx-auto mb-3" style="width: 120px; height: 120px; font-size: 48px;">
+                <i class="fa fa-user"></i>
+              </div>
+              <h5 id="profileName">Loading...</h5>
+              <p class="text-muted" id="profileEmail">Loading...</p>
+              <button class="btn btn-primary btn-sm">Change Photo</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="card shadow-sm">
+            <div class="card-header bg-white">
+              <h5 class="mb-0"><i class="fa fa-user-edit me-2"></i>Personal Information</h5>
+            </div>
+            <div class="card-body">
+              <form id="profileForm">
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="profileFullName" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="profileEmailInput" readonly>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Phone</label>
+                    <input type="tel" class="form-control" id="profilePhone" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Date of Birth</label>
+                    <input type="text" class="form-control" id="profileDOB" readonly>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label class="form-label">Gender</label>
+                    <input type="text" class="form-control" id="profileGender" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Blood Group</label>
+                    <input type="text" class="form-control" id="profileBloodGroup" readonly>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <textarea class="form-control" id="profileAddress" rows="2" readonly></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="alert('Edit profile feature coming soon!')">
+                  <i class="fa fa-edit me-2"></i>Edit Profile
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medical Records Tab -->
+    <div id="medical-records-tab" class="tab-content">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0"><i class="fa fa-file-medical me-2"></i>Medical Records</h5>
+        </div>
+        <div class="card-body">
+          <div class="text-center py-5">
+            <i class="fa fa-file-medical fa-3x text-muted mb-3"></i>
+            <h5>No Medical Records</h5>
+            <p class="text-muted">Your medical records will appear here</p>
+            <button class="btn btn-primary">Upload Record</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prescriptions Tab -->
+    <div id="prescriptions-tab" class="tab-content">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0"><i class="fa fa-prescription me-2"></i>My Prescriptions</h5>
+        </div>
+        <div class="card-body">
+          <div class="text-center py-5">
+            <i class="fa fa-prescription fa-3x text-muted mb-3"></i>
+            <h5>No Prescriptions</h5>
+            <p class="text-muted">Your prescriptions will appear here after doctor consultations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script>
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+    if (!token || !user) {
+      window.location.href = 'patient_login.html';
+    }
+
+    // Display user info
+    document.getElementById('patientName').textContent = user.name || 'Patient';
+    document.getElementById('sidebarPatientName').textContent = user.name || 'Patient';
+    document.getElementById('sidebarPatientEmail').textContent = user.email || '';
+    document.getElementById('profileName').textContent = user.name || 'Patient';
+    document.getElementById('profileEmail').textContent = user.email || '';
+    document.getElementById('profileFullName').value = user.name || '';
+    document.getElementById('profileEmailInput').value = user.email || '';
+    document.getElementById('profilePhone').value = user.phone || '';
+    document.getElementById('profileDOB').value = user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleDateString() : '';
+    document.getElementById('profileGender').value = user.gender || '';
+    document.getElementById('profileBloodGroup').value = user.bloodGroup || '';
+    document.getElementById('profileAddress').value = user.address || '';
+
+    // Tab switching
+    function showTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Remove active class from all nav links
+      document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      // Show selected tab
+      document.getElementById(tabName + '-tab').classList.add('active');
+      
+      // Add active class to clicked nav link
+      event.target.classList.add('active');
+      
+      // Load data for specific tabs
+      if (tabName === 'appointments') {
+        loadAllAppointments();
+      }
+    }
+
+    // Load appointments
+    async function loadAppointments() {
+      try {
+        const response = await fetch('http://localhost:5000/api/appointments/patient', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        const result = await response.json();
+        
+        if (result.success && result.data) {
+          const appointments = result.data;
+          
+          // Update stats
+          document.getElementById('totalAppointments').textContent = appointments.length;
+          
+          const upcoming = appointments.filter(apt => 
+            new Date(apt.appointmentDate) >= new Date() && apt.status !== 'cancelled'
+          );
+          document.getElementById('upcomingAppointments').textContent = upcoming.length;
+          
+          const completed = appointments.filter(apt => apt.status === 'completed');
+          document.getElementById('completedAppointments').textContent = completed.length;
+          
+          // Display upcoming appointments
+          displayUpcomingAppointments(upcoming);
+        }
+      } catch (error) {
+        console.error('Error loading appointments:', error);
+        document.getElementById('upcomingAppointmentsList').innerHTML = `
+          <div class="text-center py-4">
+            <i class="fa fa-exclamation-triangle fa-2x text-danger mb-3"></i>
+            <p class="text-muted">Unable to load appointments</p>
+          </div>
+        `;
+      }
+    }
+
+    function displayUpcomingAppointments(appointments) {
+      const container = document.getElementById('upcomingAppointmentsList');
+      
+      if (appointments.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-4">
+            <i class="fa fa-calendar-times fa-2x text-muted mb-3"></i>
+            <p class="text-muted">No upcoming appointments</p>
+            <button class="btn btn-primary" onclick="showTab('book')">Book Appointment</button>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = appointments.map(apt => `
+        <div class="card appointment-card mb-3">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-md-2">
+                <div class="text-center">
+                  <h4 class="mb-0">${new Date(apt.appointmentDate).getDate()}</h4>
+                  <small class="text-muted">${new Date(apt.appointmentDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</small>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h6 class="mb-1">Dr. ${apt.doctor?.name || 'Doctor'}</h6>
+                <p class="text-muted mb-1"><i class="fa fa-stethoscope me-2"></i>${apt.doctor?.specialization || 'Specialist'}</p>
+                <p class="text-muted mb-0"><i class="fa fa-clock me-2"></i>${apt.appointmentTime}</p>
+              </div>
+              <div class="col-md-2">
+                <span class="badge badge-status bg-${getStatusColor(apt.status)}">${apt.status}</span>
+              </div>
+              <div class="col-md-2">
+                <button class="btn btn-sm btn-outline-primary w-100 mb-1">View Details</button>
+                <button class="btn btn-sm btn-outline-danger w-100">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function loadAllAppointments() {
+      // Similar to loadAppointments but shows all
+      loadAppointments();
+    }
+
+    function getStatusColor(status) {
+      const colors = {
+        'confirmed': 'success',
+        'pending': 'warning',
+        'completed': 'info',
+        'cancelled': 'danger'
+      };
+      return colors[status] || 'secondary';
+    }
+
+    function logout() {
+      if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = 'patient_login.html';
+      }
+    }
+
+    // Load data on page load
+    loadAppointments();
+  </script>
+</body>
+</html>
