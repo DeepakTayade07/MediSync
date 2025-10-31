@@ -4,7 +4,7 @@ MediSync is a web-based health information management system designed to store, 
 
 This system allows patients to register, update their medical information, and access their reports conveniently. Doctors can log in, view patient details, and provide medical suggestions or updates in real time. MediSync ensures data accuracy, privacy, and easy accessibility for both patients and healthcare professionals.
 
-Developed using PHP, MySQL, HTML, CSS, and JavaScript, the project demonstrates how technology can improve healthcare data management, streamline operations, and enhance communication between patients and doctors.
+Developed using MONGODB, HTML, CSS, and JavaScript, the project demonstrates how technology can improve healthcare data management, streamline operations, and enhance communication between patients and doctors.
 
 🧩 Key Features
 
@@ -16,7 +16,7 @@ Centralized database for storing patient information
 
 Simple, responsive, and user-friendly interface
 
-Reliable data storage using MySQL
+Reliable data storage using MONGODB
 
 Easily extendable for future features like appointment booking and live monitoring
 
@@ -28,13 +28,13 @@ To develop a lightweight, efficient, and accessible health record management sys
 
 Frontend: HTML, CSS, JavaScript
 
-Backend: PHP
+Backend: JAVASCRIPT
 
-Database: MySQL
+Database: MONGODB
 
 Server Environment: XAMPP / Apache
 
-Tools: VS Code, phpMyAdmin
+Tools: VS Code
 
 👩‍💻 Team Members
 
@@ -57,4 +57,4 @@ Online appointment scheduling
 
 Integration with wearable health devices
 
-Mobile app version of MediSync
+WEB version of MediSync
